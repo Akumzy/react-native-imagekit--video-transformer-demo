@@ -8,6 +8,19 @@ Use [`expo-router`](https://expo.github.io/router) to build native navigation us
 npx create-expo-app -e with-router
 ```
 
+```log
+➜  Github npx create-expo-app@latest -e with-router
+Need to install the following packages:
+  create-expo-app@2.1.1
+Ok to proceed? (y)
+✔ What is your app named? … imagekit-transformer
+```
+
+```log
+➜  imagekit-transformer git:(main) ✗ npx expo prebuild
+⠋ Creating native project directories (./ios and ./android) and updating .gitignore
+```
+
 ## 📝 Notes
 
 - [Expo Router: Docs](https://expo.github.io/router)

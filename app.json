@@ -8,6 +8,12 @@
       "expo-router"
     ],
     "name": "imagekit-transformer",
-    "slug": "imagekit-transformer"
+    "slug": "imagekit-transformer",
+    "android": {
+      "package": "com.akumzy.imagekittransformer"
+    },
+    "ios": {
+      "bundleIdentifier": "com.akumzy.imagekittransformer"
+    }
   }
 }
