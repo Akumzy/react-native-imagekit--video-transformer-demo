@@ -6,7 +6,7 @@ import { Video, ResizeMode } from 'expo-av';
 
 
 const videoUrl = "https://ik.imagekit.io/rjxlixj7d/workers.mp4"
-
+// This is utilities function we are going to use to generate the ImageKit transformation URL based on the base URL and transformation parameters
 function generateImageKitTransformationURL (baseURL, transformationParams) {
   // Start with the base URL
   let imageURL = baseURL + '?';
@@ -39,9 +39,11 @@ export default function Page () {
     }
   }
   const addTextToVideo = useCallback(() => {
-    // https://ik.imagekit.io/rjxlixj7d/workers.mp4?tr=l-text,i-Let's%20GO!!,bg-yellow,pa-bw_mul_0.01,l-end
-    // https://ik.imagekit.io/rjxlixj7d/workers.mp4?tr=l-text,i=Let's%20GO!!,bg=yellow,pa=bw_mul_0.01,l=end
-    // https://ik.imagekit.io/rjxlixj7d/workers.mp4?tr=l-text,i-We%20need%20a%20better%20system%20plan%20,bg-yellow,pa-bw_mul_0.01,l-end
+    // l-text is the transformation name for text overlay transformation
+    // When composing the transformer parameters for our utility function, we need to ensure
+    // that the first parameter is always the transformation name e.g. tr=l-text
+    // followed by the actual transformation parameters and their values with the last parameter
+    // being the closing parameter e.g. l-end
     return generateImageKitTransformationURL(videoUrl, {
       tr: 'l-text',
       i: encodeURIComponent(text),
@@ -53,6 +55,7 @@ export default function Page () {
     })
   }, [text])
   const addTextImageToVideo = useCallback(() => {
+    // l-image is the transformation name for image overlay transformation
     const imageId = 'default-image.jpg'
     // https://ik.imagekit.io/demo/base-video.mp4?tr=l-image,i-logo.png,l-end
     return generateImageKitTransformationURL(videoUrl, {
@@ -64,8 +67,9 @@ export default function Page () {
   }, [])
 
   const addTextSubtitleToVideo = useCallback(() => {
-    // https://ik.imagekit.io/demo/base-video.mp4?tr=l-subtitles,i-english.srt,l-end
+    // l-subtitles is the transformation name for text subtitle transformation
     const subtitleId = 'worker-preview.srt'
+    // https://ik.imagekit.io/demo/base-video.mp4?tr=l-subtitles,i-english.srt,l-end
     return generateImageKitTransformationURL(videoUrl, {
       tr: 'l-subtitles',
       i: subtitleId,
@@ -88,16 +92,28 @@ export default function Page () {
             value={ text }
           />
           <View style={ { paddingVertical: 16 } } >
+            {/* 
+              We are going to call the utility function to generate the transformation URL
+              for the video with the text overlay transformation
+             */}
             <Pressable onPress={ () => setComputedUrl(addTextToVideo()) }
               style={ styles.button }
             >
               <Text style={ { color: 'white' } }>Add Text Overlay to Video</Text>
             </Pressable>
+            {/* 
+              We are going to call the utility function to generate the transformation URL
+              for the video with the image overlay transformation
+             */}
             <Pressable onPress={ () => setComputedUrl(addTextImageToVideo()) }
               style={ styles.button }
             >
               <Text style={ { color: 'white' } }>Add Image Overlay to Video</Text>
             </Pressable>
+            {/* 
+              We are going to call the utility function to generate the transformation URL
+              for the video with the text subtitle transformation
+             */}
             <Pressable onPress={ () => setComputedUrl(addTextSubtitleToVideo()) }
               style={ styles.button }
             >
@@ -111,6 +127,7 @@ export default function Page () {
           <Video
             ref={ video }
             style={ styles.video }
+            // Ensure that source uri is the computed URL
             source={ {
               uri: computedUrl
             } }
