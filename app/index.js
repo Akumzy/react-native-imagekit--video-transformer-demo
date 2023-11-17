@@ -54,7 +54,7 @@ export default function Page () {
       l: 'end',
     })
   }, [text])
-  const addTextImageToVideo = useCallback(() => {
+  const addImageToVideo = useCallback(() => {
     // l-image is the transformation name for image overlay transformation
     const imageId = 'default-image.jpg'
     // https://ik.imagekit.io/demo/base-video.mp4?tr=l-image,i-logo.png,l-end
@@ -66,13 +66,23 @@ export default function Page () {
     })
   }, [])
 
-  const addTextSubtitleToVideo = useCallback(() => {
+  const addSubtitleToVideo = useCallback(() => {
     // l-subtitles is the transformation name for text subtitle transformation
     const subtitleId = 'worker-preview.srt'
     // https://ik.imagekit.io/demo/base-video.mp4?tr=l-subtitles,i-english.srt,l-end
     return generateImageKitTransformationURL(videoUrl, {
       tr: 'l-subtitles',
       i: subtitleId,
+      l: 'end',
+    })
+  }, [])
+
+  const addVideoOverlayToVideo = useCallback(() => {
+    // https://ik.imagekit.io/demo/base-video.mp4?tr=l-video,i-overlay.mp4,l-end
+    const videoId = 'magnify.mp4'
+    return generateImageKitTransformationURL(videoUrl, {
+      tr: 'l-video',
+      i: videoId,
       l: 'end',
     })
   }, [])
@@ -105,7 +115,7 @@ export default function Page () {
               We are going to call the utility function to generate the transformation URL
               for the video with the image overlay transformation
              */}
-            <Pressable onPress={ () => setComputedUrl(addTextImageToVideo()) }
+            <Pressable onPress={ () => setComputedUrl(addImageToVideo()) }
               style={ styles.button }
             >
               <Text style={ { color: 'white' } }>Add Image Overlay to Video</Text>
@@ -114,10 +124,19 @@ export default function Page () {
               We are going to call the utility function to generate the transformation URL
               for the video with the text subtitle transformation
              */}
-            <Pressable onPress={ () => setComputedUrl(addTextSubtitleToVideo()) }
+            <Pressable onPress={ () => setComputedUrl(addSubtitleToVideo()) }
               style={ styles.button }
             >
               <Text style={ { color: 'white' } }>Add Text Subtitle to Video</Text>
+            </Pressable>
+            {/* 
+              We are going to call the utility function to generate the transformation URL
+              for the video with the video overlay transformation
+             */}
+            <Pressable onPress={ () => setComputedUrl(addVideoOverlayToVideo()) }
+              style={ styles.button }
+            >
+              <Text style={ { color: 'white' } }>Add Video Overlay to Video</Text>
             </Pressable>
 
           </View>
